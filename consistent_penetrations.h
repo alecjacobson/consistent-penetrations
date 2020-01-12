@@ -410,6 +410,9 @@ inline void consistent_penetrations(
   }
   Eigen::SparseMatrix<int> AA;
   igl::adjacency_matrix(EA,AA);
+  // EleA might not touch all of VA. It'd be better to restrict further
+  // computation to the part that is touched. But this will do for now.
+  AA.conservativeResize(VA.rows(),VA.rows());
   return consistent_penetrations(VA,EleA,EA,AA,VB,FB,DR);
 }
 }
